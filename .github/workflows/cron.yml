@@ -1,0 +1,13 @@
+name: Mantenimiento diario
+# Calls /api/cron: expired sessions, data retention (Ley 21.719) and weekly certification reminders.
+on:
+  schedule:
+    - cron: '0 9 * * *' # 06:00 Chile (UTC-3)
+  workflow_dispatch:
+
+jobs:
+  cron:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          curl -fsS -X POST -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" "${{ vars.SITE_URL || 'https://www.othalan.cl' }}/api/cron"

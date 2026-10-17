@@ -1,0 +1,26 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "othalan-web",
+	"main": ".svelte-kit/cloudflare/_worker.js",
+	"compatibility_date": "2026-10-01",
+	"compatibility_flags": ["nodejs_compat"],
+	"assets": { "binding": "ASSETS", "directory": ".svelte-kit/cloudflare" },
+	"observability": { "enabled": true },
+	"ratelimits": [{ "name": "FORM_LIMITER", "namespace_id": "1001", "simple": { "limit": 5, "period": 60 } }],
+	"vars": {
+		"PUBLIC_SITE_URL": "https://www.othalan.cl",
+		"PUBLIC_IMAGE_TRANSFORMS": "false",
+		"STORAGE_BUCKET": "othalan-media",
+		"STORAGE_REGION": "us-east-2",
+		"EMAIL_FROM": "Othalan <no-reply@othalan.cl>"
+	}
+	// Secrets (wrangler secret put <NAME>):
+	//   DATABASE_URL                 Neon connection string (pooled)
+	//   STORAGE_ENDPOINT             Neon branch S3 endpoint, e.g. https://br-xxx.storage.c-2.us-east-2.aws.neon.tech
+	//   STORAGE_ACCESS_KEY_ID        nak_live_...
+	//   STORAGE_SECRET_ACCESS_KEY    nsk_live_...
+	//   SESSION_SECRET               random 32+ chars (used to hash IPs)
+	//   RESEND_API_KEY               optional, transactional email
+	//   TURNSTILE_SECRET_KEY         optional (+ PUBLIC_TURNSTILE_SITE_KEY var)
+	//   CRON_SECRET                  protects /api/cron (retention purge, cert reminders)
+}
