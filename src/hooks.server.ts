@@ -1,6 +1,7 @@
 import type { Handle, HandleServerError } from '@sveltejs/kit';
 import { redirect } from '@sveltejs/kit';
 import { env } from '$env/dynamic/private';
+import { env as publicEnv } from '$env/dynamic/public';
 import { getDb, type DB } from '$lib/server/db/client';
 import { SESSION_COOKIE, validateSession } from '$lib/server/auth';
 import { redirects } from '$lib/server/db/schema';
@@ -21,7 +22,18 @@ async function findRedirect(db: DB, path: string) {
 
 const SKIP_REDIRECT = /^\/(admin|api|media|_app)(\/|$)/;
 
+/* Bare domain (othalan.cl) → canonical host (www.othalan.cl), so only one host gets indexed. */
+function canonicalHostRedirect(url: URL): string | null {
+	if (!publicEnv.PUBLIC_SITE_URL) return null;
+	const canonical = new URL(publicEnv.PUBLIC_SITE_URL);
+	if (url.hostname === canonical.hostname || `www.${url.hostname}` !== canonical.hostname) return null;
+	return canonical.origin + url.pathname + url.search;
+}
+
 export const handle: Handle = async ({ event, resolve }) => {
+	const canonicalUrl = canonicalHostRedirect(event.url);
+	if (canonicalUrl) redirect(301, canonicalUrl);
+
 	event.locals.db = getDb(env.DATABASE_URL);
 	event.locals.user = null;
 	const path = event.url.pathname;

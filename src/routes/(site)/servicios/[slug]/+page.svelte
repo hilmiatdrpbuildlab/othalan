@@ -8,6 +8,7 @@
 	import ServiceCard from '$lib/components/cards/ServiceCard.svelte';
 	import Faq from '$lib/components/sections/Faq.svelte';
 	import { page } from '$app/state';
+	import { siteOrigin } from '$lib/utils/site';
 
 	let { data } = $props();
 	const s = $derived(data.service);
@@ -18,7 +19,7 @@
 		description: s.summary,
 		serviceType: s.title,
 		areaServed: { '@type': 'Country', name: 'Chile' },
-		provider: { '@type': 'GeneralContractor', name: data.settings.legalName, url: page.url.origin }
+		provider: { '@type': 'GeneralContractor', name: data.settings.legalName, url: siteOrigin(page.url.origin) }
 	});
 </script>
 

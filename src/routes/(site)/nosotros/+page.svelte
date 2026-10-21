@@ -8,6 +8,7 @@
 	import TeamCard from '$lib/components/cards/TeamCard.svelte';
 	import StatBlock from '$lib/components/cards/StatBlock.svelte';
 	import { page as appPage } from '$app/state';
+	import { siteOrigin } from '$lib/utils/site';
 
 	let { data } = $props();
 	const pg = $derived(data.page);
@@ -17,7 +18,7 @@
 		mainEntity: {
 			'@type': 'Organization',
 			name: data.settings.legalName,
-			url: appPage.url.origin,
+			url: siteOrigin(appPage.url.origin),
 			employee: data.directivos.map((m) => ({
 				'@type': 'Person',
 				name: m.name,

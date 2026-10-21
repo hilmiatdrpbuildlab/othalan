@@ -5,6 +5,7 @@
 	import CtaBand from '$lib/components/sections/CtaBand.svelte';
 	import { formatDateLong } from '$lib/utils/format';
 	import { page } from '$app/state';
+	import { siteOrigin } from '$lib/utils/site';
 
 	let { data } = $props();
 	const p = $derived(data.post);
@@ -16,7 +17,7 @@
 		datePublished: new Date(date).toISOString(),
 		dateModified: new Date(p.updatedAt).toISOString(),
 		author: p.authorName ? { '@type': 'Person', name: p.authorName } : { '@type': 'Organization', name: data.settings.legalName },
-		publisher: { '@type': 'Organization', name: data.settings.legalName, logo: { '@type': 'ImageObject', url: `${page.url.origin}/icon-512.png` } }
+		publisher: { '@type': 'Organization', name: data.settings.legalName, logo: { '@type': 'ImageObject', url: `${siteOrigin(page.url.origin)}/icon-512.png` } }
 	});
 </script>
 

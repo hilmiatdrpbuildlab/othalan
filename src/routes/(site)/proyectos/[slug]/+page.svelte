@@ -9,6 +9,7 @@
 	import CtaBand from '$lib/components/sections/CtaBand.svelte';
 	import { formatClp, formatInt, formatNumber } from '$lib/utils/format';
 	import { page } from '$app/state';
+	import { siteOrigin } from '$lib/utils/site';
 
 	let { data } = $props();
 	const p = $derived(data.project);
@@ -40,7 +41,7 @@
 		'@type': 'CreativeWork',
 		name: p.title,
 		description: p.summary,
-		...(p.cover ? { image: page.url.origin + '/media/' + p.cover.storageKey.replace('public/media/', '') } : {}),
+		...(p.cover ? { image: siteOrigin(page.url.origin) + '/media/' + p.cover.storageKey.replace('public/media/', '') } : {}),
 		...(p.year ? { dateCreated: String(p.year) } : {}),
 		...(location ? { locationCreated: { '@type': 'Place', name: location } } : {}),
 		creator: { '@type': 'GeneralContractor', name: data.settings.legalName }

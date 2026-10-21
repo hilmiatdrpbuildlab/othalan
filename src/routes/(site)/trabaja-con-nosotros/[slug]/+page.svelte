@@ -9,6 +9,7 @@
 	import { REGIONES } from '$lib/utils/chile';
 	import { formatDate } from '$lib/utils/format';
 	import { page } from '$app/state';
+	import { siteOrigin } from '$lib/utils/site';
 
 	let { data, form } = $props();
 	const job = $derived(data.job);
@@ -26,7 +27,7 @@
 					datePosted: new Date(job.publishedAt ?? job.createdAt).toISOString().slice(0, 10),
 					...(job.closesAt ? { validThrough: job.closesAt } : {}),
 					employmentType: job.contractType === 'Indefinido' ? 'FULL_TIME' : 'CONTRACTOR',
-					hiringOrganization: { '@type': 'Organization', name: data.settings.legalName, sameAs: page.url.origin },
+					hiringOrganization: { '@type': 'Organization', name: data.settings.legalName, sameAs: siteOrigin(page.url.origin) },
 					jobLocation: { '@type': 'Place', address: { '@type': 'PostalAddress', addressLocality: job.location ?? '', addressCountry: 'CL' } }
 				}
 			: null

@@ -11,7 +11,7 @@
 		"PUBLIC_SITE_URL": "https://www.othalan.cl",
 		"PUBLIC_IMAGE_TRANSFORMS": "false",
 		"STORAGE_BUCKET": "othalan-media",
-		"STORAGE_REGION": "us-east-2",
+		"STORAGE_REGION": "us-east-1",
 		"EMAIL_FROM": "Othalan <no-reply@othalan.cl>"
 	}
 	// Secrets (wrangler secret put <NAME>):

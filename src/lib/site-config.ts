@@ -42,7 +42,7 @@ export const DEFAULT_SETTINGS: SiteSettings = {
 	phone: '',
 	whatsapp: '',
 	whatsappMessage: 'Hola Othalan, quisiera solicitar información sobre un proyecto.',
-	email: 'contacto@othalan.cl',
+	email: 'informaciones@othalan.cl',
 	address: '',
 	comuna: '',
 	region: 'Metropolitana de Santiago',

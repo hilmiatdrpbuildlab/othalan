@@ -15,17 +15,19 @@
 	import { mediaUrl } from '$lib/utils/image';
 	import { phoneDigits } from '$lib/utils/phone';
 	import { page } from '$app/state';
+	import { siteOrigin } from '$lib/utils/site';
 
 	let { data } = $props();
 	const s = $derived(data.settings);
 	const enabled = $derived(data.sections.filter((x) => x.enabled));
 	const d = <K extends keyof HomeSectionData>(sec: HomeSection, _k: K) => sec.data as HomeSectionData[K];
 	const wa = $derived(s.whatsapp ? `https://wa.me/${phoneDigits(s.whatsapp)}?text=${encodeURIComponent(s.whatsappMessage)}` : null);
-	const site = $derived(page.url.origin);
+	const site = $derived(siteOrigin(page.url.origin));
 
-	const jsonLd = $derived({
+	const organization = $derived({
 		'@context': 'https://schema.org',
 		'@type': 'GeneralContractor',
+		'@id': `${site}/#organization`,
 		name: s.legalName || s.companyName,
 		alternateName: s.companyName,
 		url: site,
@@ -41,6 +43,19 @@
 		sameAs: Object.values(s.social).filter(Boolean),
 		employee: data.team.map((m) => ({ '@type': 'Person', name: m.name, jobTitle: m.roleTitle }))
 	});
+	// WebSite gives Google the site name shown above the result (instead of the bare domain).
+	const jsonLd = $derived([
+		{
+			'@context': 'https://schema.org',
+			'@type': 'WebSite',
+			name: s.companyName,
+			alternateName: s.legalName || undefined,
+			url: `${site}/`,
+			inLanguage: 'es-CL',
+			publisher: { '@id': organization['@id'] }
+		},
+		organization
+	]);
 	// Section index numbers ("01 / Servicios")
 	const hasData: Record<string, () => boolean> = {
 		clients: () => data.clients.length > 0,

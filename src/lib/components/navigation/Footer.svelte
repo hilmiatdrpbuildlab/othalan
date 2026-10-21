@@ -93,6 +93,7 @@
 				<li><button type="button" onclick={onCookies}>Preferencias de cookies</button></li>
 				<li><a href="/canal-de-denuncias">Canal de denuncias</a></li>
 			</ul>
+			<p class="ftr__credit">Built by <a href="https://drpbuildlab.com" target="_blank" rel="noopener">DRP BuildLab</a></p>
 			<a href="#top" class="ftr__top">Volver arriba <Icon name="arrow-up" size={16} /></a>
 		</div>
 	</div>
@@ -220,6 +221,10 @@
 		display: flex;
 		flex-wrap: wrap;
 		gap: var(--space-2) var(--space-5);
+	}
+	.ftr__credit a {
+		color: var(--yellow-500);
+		font-weight: 600;
 	}
 	.ftr__top {
 		display: inline-flex;
